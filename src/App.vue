@@ -14,6 +14,8 @@
         <div class="navbar-item">
           <div class="buttons">
             <router-link v-if="!isAuthenticated" class="button is-light" :to="{ name: 'Login' }">Se connecter</router-link>
+            <router-link v-if="isAuthenticated" class="button is-success" :to="{ name: 'AddPost' }">Ajouter un article</router-link>
+
               <a v-if="isAuthenticated" v-on:click="logout()" class="button is-danger">
                 Se déconnecter
               </a>

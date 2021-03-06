@@ -4,7 +4,7 @@
       <p class="title">
         Articles
       </p>
-      <router-link style="margin-bottom: 20px; " v-if="!isAuthenticated" class="button is-success" :to="{ name: 'AddPost' }">Ajouter un article</router-link>
+      <router-link style="margin-bottom: 20px; " v-if="isAuthenticated" class="button is-success" :to="{ name: 'AddPost' }">Ajouter un article</router-link>
 
       <div v-if="posts">
         <div v-for="post in posts" :key="post.id" class="card post">
