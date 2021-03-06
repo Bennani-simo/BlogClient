@@ -1,13 +1,12 @@
 <template>
   <section class="hero is-info">
     <div class="hero-body">
-      <p class="title">
-        Articles
+      <p v-if="post" class="title">
+        Vous consultez l'article id {{post.id}}
       </p>
-      <router-link style="margin-bottom: 20px; " v-if="!isAuthenticated" class="button is-success" :to="{ name: 'AddPost' }">Ajouter un article</router-link>
 
-      <div v-if="posts">
-        <div v-for="post in posts" :key="post.id" class="card post">
+      <div v-if="post">
+        <div class="card post">
           <header class="card-header">
             <p class="card-header-title">
               {{post.titre}}
@@ -21,51 +20,52 @@
               <small>Auteur : {{post.user_id}}</small>
             </div>
           </div>
-          <footer class="card-footer">
-            <router-link class="card-footer-item" :to="{ name: 'Post',  params: { id: post.id } }">Voir l'article</router-link>
-          </footer>
         </div>
-
         <br><br>
       </div>
-      <div v-else>
-        <div class="notification is-warning">
-          Il n y a aucuns articles
-        </div>
-      </div>
+
 
     </div>
   </section>
 </template>
 
 <script>
-import {ref} from 'vue'
+import {watch, ref} from 'vue'
+import { useRoute } from 'vue-router'
 import axios from "axios";
 
 export default {
   setup() {
-    let posts = ref()
+    const route = useRoute()
 
-    function getPosts(){
+    let post = ref()
+
+    function getPost(id){
       const instance = axios.create({
         baseURL: 'http://localhost:3000/',
         // headers: {'Authorization': "Bearer "+ localStorage.getItem('token')}
       });
 
-      instance.get('/post/allPost')
+      instance.post('/post', {id : id})
           .then(response => {
-            console.log(response);
-            console.log(response.data.posts);
-            posts.value = response.data.posts;
+            console.log(response.data.post);
+            post.value = response.data.post;
           }).catch((error) => {
-        return error;
-      });
+            return error;
+          });
     }
 
-    posts.value = getPosts();
+    post.value =  getPost(route.params.id);
+
+    watch(
+        () => route.params,
+        async newParams => {
+          post.value = await getPost(newParams.id)
+        }
+    )
 
     return {
-      posts
+      post
     }
   },
 }

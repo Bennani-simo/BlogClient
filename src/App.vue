@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
-      <a class="navbar-item" href="https://bulma.io">
+      <a class="navbar-item" href="/">
         <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28">
       </a>
     </div>
@@ -14,9 +14,9 @@
         <div class="navbar-item">
           <div class="buttons">
             <router-link v-if="!isAuthenticated" class="button is-light" :to="{ name: 'Login' }">Se connecter</router-link>
-            <a v-if="isAuthenticated" v-on:click="logout()" class="button is-danger">
-              Se déconnecter
-            </a>
+              <a v-if="isAuthenticated" v-on:click="logout()" class="button is-danger">
+                Se déconnecter
+              </a>
           </div>
         </div>
       </div>
