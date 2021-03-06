@@ -48,13 +48,13 @@ export default {
         id: 1,
         title: "Mon article hardcodé 1",
         description: "Mon article hardcodé 1",
-        author: "simo"
+        author: "Mohamed bennani"
       },
       {
         id: 2,
         title: "Mon article hardcodé 2",
         description: "Mon article hardcodé 2",
-        author: "simo"
+        author: "Mohamed bennani"
       },
     ])
 
