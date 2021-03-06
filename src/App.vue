@@ -8,15 +8,15 @@
     <div id="navbarBlogApp" class="navbar-menu">
       <div class="navbar-start">
         <router-link class="navbar-item" :to="{ name: 'Home' }">Page d'accueil</router-link>
-        <router-link class="navbar-item" :to="{ name: 'Home' }">Mes articles</router-link>
+        <router-link class="navbar-item" :to="{ name: 'MyPosts' }">Mes articles</router-link>
       </div>
       <div class="navbar-end">
         <div class="navbar-item">
           <div class="buttons">
-            <a class="button is-primary">
-              <strong>S'enregistrer</strong>
+            <router-link v-if="!isAuthenticated" class="button is-light" :to="{ name: 'Login' }">Se connecter</router-link>
+            <a v-if="isAuthenticated" v-on:click="logout()" class="button is-danger">
+              Se déconnecter
             </a>
-            <router-link class="button is-light" :to="{ name: 'Login' }">Se connecter</router-link>
           </div>
         </div>
       </div>
@@ -26,6 +26,24 @@
 </template>
 
 <script>
+import {computed, ref} from 'vue'
+import store from './store'
+
+export default{
+  setup(){
+    let isAuthenticated = ref(store.getters.isAuthenticated)
+    isAuthenticated = computed(() => store.getters.isAuthenticated);
+
+    function logout() {
+      store.dispatch("logout");
+    }
+
+    return{
+      isAuthenticated,
+      logout
+    }
+  }
+}
 
 </script>
 
