@@ -23,6 +23,7 @@
           </div>
           <footer class="card-footer">
             <router-link class="card-footer-item" :to="{ name: 'Post',  params: { id: post.id } }">Voir l'article</router-link>
+            <a v-on:click="onDelete(post.id)" class="card-footer-item">Supprimer</a>
           </footer>
         </div>
 
@@ -39,8 +40,9 @@
 </template>
 
 <script>
-import {ref} from 'vue'
+import {ref,computed} from 'vue'
 import axios from "axios";
+import router from "@/router/routes";
 
 export default {
   setup() {
@@ -62,10 +64,29 @@ export default {
       });
     }
 
+  function onDelete(id){
+      const instance = axios.create({
+        baseURL: 'http://localhost:3000/',
+        // headers: {'Authorization': "Bearer "+ localStorage.getItem('token')}
+      });
+
+      instance.post('/post/delete', {id : id})
+          .then(response => {
+            console.log(response)
+            posts.value = getPosts();
+            router.push("/");
+          }).catch((error) => {
+        return error;
+      });
+    }
     posts.value = getPosts();
+    posts.value = computed(() => getPosts());
+
+
 
     return {
-      posts
+      posts,
+      onDelete
     }
   },
 }
